@@ -107,6 +107,23 @@ def transform(rows: list[dict]) -> list[dict]:
             }
             if row.get("owner")
             else {},
+            "setter": {
+                "first_name": row["setter"].get("first_name"),
+                "last_name": row["setter"].get("last_name"),
+                "email": row["setter"].get("email"),
+                "valid_email": row["setter"].get("valid_email"),
+                "phone": row["setter"].get("phone"),
+                "timezone": row["setter"].get("timezone"),
+                "id": row["setter"].get("id"),
+                "meta": {
+                    "intercom_id": row["setter"]["meta"].get("intercom_id"),
+                    "valid_email_ts": row["setter"]["meta"].get("valid_email_ts"),
+                }
+                if row["setter"].get("meta")
+                else {},
+            }
+            if row.get("setter")
+            else {},
             "office": {
                 "office_name": row["office"].get("office_name"),
                 "office_id": row["office"].get("office_id"),
@@ -252,6 +269,27 @@ SCHEMA = [
                     {"name": "valid_email_ts", "type": "TIMESTAMP"},
                     {"name": "sales_rep_license", "type": "STRING"},
                     {"name": "can_create_customers", "type": "STRING"},
+                ],
+            },
+        ],
+    },
+    {
+        "name": "setter",
+        "type": "record",
+        "fields": [
+            {"name": "first_name", "type": "STRING"},
+            {"name": "last_name", "type": "STRING"},
+            {"name": "email", "type": "STRING"},
+            {"name": "valid_email", "type": "INTEGER"},
+            {"name": "phone", "type": "STRING"},
+            {"name": "timezone", "type": "STRING"},
+            {"name": "id", "type": "INTEGER"},
+            {
+                "name": "meta",
+                "type": "record",
+                "fields": [
+                    {"name": "intercom_id", "type": "STRING"},
+                    {"name": "valid_email_ts", "type": "TIMESTAMP"},
                 ],
             },
         ],
