@@ -1,5 +1,5 @@
 NAME = "Customers"
-ENDPOINT = "customers"
+ENDPOINT = "/customers"
 
 
 def transform(rows: list[dict]) -> list[dict]:
@@ -133,7 +133,9 @@ def transform(rows: list[dict]) -> list[dict]:
                 "office_tz": row["office"].get("office_tz"),
                 "office_state": row["office"].get("office_state"),
                 "sms_number": row["office"].get("sms_number"),
-            },
+            }
+            if row.get("office")
+            else {},
             "company": {
                 "company_name": row["company"].get("company_name"),
                 "company_phone": row["company"].get("company_phone"),
@@ -143,7 +145,9 @@ def transform(rows: list[dict]) -> list[dict]:
                 "company_zip": row["company"].get("company_zip"),
                 "company_email": row["company"].get("company_email"),
                 "company_timezone": row["company"].get("company_timezone"),
-            },
+            }
+            if row.get("company")
+            else {},
             "customer_notes": row.get("customer_notes"),
             "customer_portal_url": row.get("customer_portal_url"),
             "surveys": [
