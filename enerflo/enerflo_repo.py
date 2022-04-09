@@ -11,12 +11,12 @@ PAGE_SIZE = 500
 
 async def _get_one(
     client: httpx.AsyncClient,
-    url: str,
+    uri: str,
     callback_fn: Callable[[dict], Any],
     page: int = 1,
 ) -> dict[str, Any]:
     r = await client.get(
-        url,
+        uri,
         params={
             "pageSize": PAGE_SIZE,
             "page": page,
@@ -27,21 +27,21 @@ async def _get_one(
     return callback_fn(res)
 
 
-def get(endpoint: str):
+def get(uri: str):
     def _get():
         async def __get():
             async with httpx.AsyncClient(
+                base_url=BASE_URL,
                 headers={"api-key": os.getenv("ENERFLO_API_KEY", "")},
                 timeout=None,
             ) as client:
-                url = f"{BASE_URL}/{endpoint}"
-                count = await _get_one(client, url, lambda x: x["dataCount"])
+                count = await _get_one(client, uri, lambda x: x["dataCount"])
                 pages = math.ceil(count / 500)
                 tasks = [
                     asyncio.create_task(
                         _get_one(
                             client,
-                            url,
+                            uri,
                             lambda x: x["data"],
                             page,
                         )

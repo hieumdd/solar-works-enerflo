@@ -1,5 +1,5 @@
 NAME = "Customers"
-ENDPOINT = "customers"
+ENDPOINT = "/customers"
 
 
 def transform(rows: list[dict]) -> list[dict]:
