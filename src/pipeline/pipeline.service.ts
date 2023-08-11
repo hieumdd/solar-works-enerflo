@@ -35,7 +35,7 @@ export const runPipeline = async (pipeline_: Pipeline) => {
         transformValidation(pipeline_.schema),
         ndjson.stringify(),
         createLoadStream({
-            table: `p_${pipeline_.loadConfig.table}`,
+            table: pipeline_.loadConfig.table,
             schema: pipeline_.loadConfig.schema,
         }),
     ).then(() => ({ table: pipeline_.loadConfig.table }));
